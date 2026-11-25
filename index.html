@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<!--
+ ══════════════════════════════════════════════════════════════════════
+   КРАТКАЯ ИНСТРУКЦИЯ (открой этот файл в Блокноте и используй Ctrl+F):
+
+    • Свои ССЫЛКИ       — карточка 1 (Kwork) и блок контактов уже с ссылками;
+      Telegram-ник      — впиши в БЛОКЕ 5: href="https://t.me/ТВОЙ_НИК" (сейчас там "#")
+    • ПРОМОКОД          — ищи  data-code="  (код написан в двух местах — они должны совпадать!)
+    • Текст имени/описания — ищи  <h1> и  <p class="tagline">
+    • АВАТАР            — ищи  class="avatar"
+    • КОПИРАЙТ / ГОД    — ищи  © 
+   Каждый блок отдела комментариями «НАЧАЛО / КОНЕЦ» — не теряй их.
+   После правок просто сохрани файл и обнови страницу в браузере (F5).
+ ══════════════════════════════════════════════════════════════════════
+-->
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сайты и Telegram-боты под ключ — разработка на заказ</title>
+<!-- Описание для поиска и соцсетей (ВК/ОК показывают его при отправке ссылки) -->
+<meta name="description" content="Создаю продающие лендинги, сайты-визитки, мультиссылки и Telegram-ботов под ключ. Адаптация под телефон, запуск от 1–3 дней.">
+<meta property="og:title" content="Сайты и Telegram-боты под ключ — разработка на заказ">
+<meta property="og:description" content="Лендинги, сайты-визитки, мультиссылки и Telegram-боты на заказ. Быстрый запуск от 1–3 дней без переплат агентствам.">
+<meta property="og:type" content="website">
+
+<style>
+/* ------------------------------------------------------------
+   ЦВЕТОВАЯ БАЗА. Тёмная тема включена по умолчанию.
+   Все цвета собраны здесь — захочешь что-то перекрасить,
+   меняй только эти строчки.
+   accents = акцентные цвета: синий (как ВК), фиолетовый, оранжевый (как ОК)
+   ------------------------------------------------------------ */
+:root{
+  --bg:        #070810;                 /* цвет фона страницы */
+  --text:      #eef0fb;                 /* основной текст */
+  --muted:     #b4badb;                 /* второстепенный текст */
+  --glass:     rgba(255,255,255,.055);  /* полупрозрачное «стекло» карточек */
+  --glass-2:   rgba(255,255,255,.10);   /* стекло посветлее (для кнопок) */
+  --border:    rgba(255,255,255,.12);   /* рамка карточек */
+  --shadow:    0 18px 45px rgba(0,0,0,.45);
+  --notch:     #0a0c18;                 /* цвет «отверстий» на купонах */
+  --a1: #4d7cff;                        /* акцент 1: синий  */
+  --a2: #a45cff;                        /* акцент 2: фиолетовый */
+  --a3: #ff7a3c;                        /* акцент 3: оранжевый */
+  --grad: linear-gradient(120deg, var(--a1), var(--a2) 55%, var(--a3));
+  --ink: #0a0f2c;                         /* тёмно-синий текст на светлых кнопках */
+  --grad-btn: linear-gradient(120deg, #8fb4ff, #c79bff 55%, #ffab73); /* светлая градиентная кнопка */
+  --ok: #2fd47f;                        /* зелёный (бейджи «бесплатно») */
+}
+/* Светлая тема — включается, когда у <html> стоит data-theme="light" */
+html[data-theme="light"]{
+  --bg:      #eef1fb;
+  --text:    #131735;
+  --muted:   #4d5684;
+  --glass:   rgba(255,255,255,.62);
+  --glass-2: rgba(255,255,255,.9);
+  --border:  rgba(25,35,90,.12);
+  --shadow:  0 18px 45px rgba(40,55,130,.15);
+  --notch:   #e6eaf8;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+html{ scroll-behavior:smooth; }
+
+body{
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  transition: background .35s ease, color .35s ease;
+}
+
+/* Декоративный фон: три больших размытых «пятна» цвета,
+   которые медленно плавают. Это чистая косметика. */
+.bg{ position:fixed; inset:0; z-index:-1; overflow:hidden; pointer-events:none; }
+.bg i{ position:absolute; border-radius:50%; filter:blur(90px); opacity:.42; }
+.bg i:nth-child(1){ width:420px; height:420px; background:var(--a1); top:-120px; left:-100px; animation:float1 16s ease-in-out infinite alternate; }
+.bg i:nth-child(2){ width:380px; height:380px; background:var(--a2); top:28%;  right:-140px; animation:float2 20s ease-in-out infinite alternate; }
+.bg i:nth-child(3){ width:340px; height:340px; background:var(--a3); bottom:-140px; left:18%; opacity:.3; animation:float1 18s ease-in-out infinite alternate-reverse; }
+@keyframes float1{ to{ transform:translate(50px,60px) scale(1.12); } }
+@keyframes float2{ to{ transform:translate(-60px,45px) scale(.92); } }
+
+/* Узкая колонка по центру — классическая «мультиссылка» */
+.page{
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 26px 16px 40px; /* отступы по краям, чтобы на телефоне ничего не липло */
+}
+
+/* Общее правило для каждой секции-блока */
+.section{ margin-top: 26px; }
+
+/* Заголовок секции: маленькая надпись с градиентной точкой */
+.sec-title{
+  display:flex; align-items:center; gap:9px;
+  font-size:.82rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); margin: 0 4px 12px;
+}
+.sec-title::before{
+  content:""; width:10px; height:10px; border-radius:3px;
+  background:var(--grad); box-shadow:0 0 14px var(--a2);
+}
+
+/* Кнопка-переключатель темы — закреплена в правом верхнем углу */
+.theme-btn{
+  position:fixed; top:14px; right:14px; z-index:50;
+  width:46px; height:46px; border-radius:50%;
+  border:1px solid var(--border);
+  background:var(--glass); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  font-size:20px; cursor:pointer; line-height:1;
+  transition: transform .25s ease, background .25s ease;
+}
+.theme-btn:hover{ transform:rotate(20deg) scale(1.08); }
+.theme-btn:active{ transform:scale(.94); }
+
+/* Плавное появление блоков при прокрутке (JS добавляет класс .js на <html>) */
+html.js .reveal{ opacity:0; transform:translateY(16px); }
+html.js .reveal.on{ opacity:1; transform:none; transition:opacity .6s ease, transform .6s ease; }
+
+/* Если человек просил систему уменьшить анимацию — отключаем всё лишнее */
+@media (prefers-reduced-motion: reduce){
+  *{ animation:none !important; transition:none !important; }
+  html.js .reveal{ opacity:1; transform:none; }
+}
+
+/* ------------------------------------------------------------
+   БЛОК 1: ШАПКА ПРОФИЛЯ
+   Аватар в вращающемся градиентном кольце + имя + описание + бейдж.
+   ------------------------------------------------------------ */
+.profile{
+  text-align:center;
+  padding: 34px 20px 26px;
+  border-radius: 26px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  box-shadow: var(--shadow);
+  position:relative; overflow:hidden;
+}
+/* Тонкая градиентная линия сверху карточки — «фирменный» штрих */
+.profile::before{
+  content:""; position:absolute; top:0; left:10%; right:10%; height:2px;
+  background:var(--grad); border-radius:2px; opacity:.8;
+}
+
+/* Аватар: внешнее кольцо медленно вращается, внутренность — нет */
+.avatar{
+  width:124px; height:124px; margin:0 auto 16px; border-radius:50%;
+  background: conic-gradient(var(--a1), var(--a2), var(--a3), var(--a1));
+  padding:4px;                              /* толщина кольца */
+  animation: spin 12s linear infinite;
+}
+.avatar-inner{
+  width:100%; height:100%; border-radius:50%; overflow:hidden;
+  background:var(--bg);
+  display:flex; align-items:center; justify-content:center;
+  font-size:54px; line-height:1;
+  animation: spin 12s linear infinite reverse; /* вращение в обратную сторону, чтобы аватар стоял ровно */
+}
+.avatar-inner img{ width:100%; height:100%; object-fit:cover; display:block; }
+@keyframes spin{ to{ transform:rotate(360deg); } }
+
+.profile h1{
+  font-size: clamp(1.7rem, 6vw, 2.3rem);   /* крупно, но умещается на телефоне */
+  font-weight: 800; letter-spacing:-.02em; line-height:1.15;
+}
+/* Градиентное слово в заголовке */
+.profile h1 .accent{
+  background:var(--grad); -webkit-background-clip:text; background-clip:text;
+  color:transparent;
+}
+.profile .tagline{
+  max-width:460px; margin:10px auto 0;
+  color:var(--muted); font-size:1rem;
+}
+
+/* Бейдж-статус с «живой» мигающей точкой */
+.status{
+  display:inline-flex; align-items:center; gap:8px;
+  margin-top:16px; padding:8px 16px; border-radius:999px;
+  background:var(--glass-2); border:1px solid var(--border);
+  font-size:.85rem; font-weight:600;
+}
+.status .dot{
+  width:9px; height:9px; border-radius:50%; background:var(--ok);
+  box-shadow:0 0 0 0 rgba(47,212,127,.6); animation:pulse 2s infinite;
+}
+@keyframes pulse{
+  0%  { box-shadow:0 0 0 0 rgba(47,212,127,.55); }
+  70% { box-shadow:0 0 0 9px rgba(47,212,127,0); }
+  100%{ box-shadow:0 0 0 0 rgba(47,212,127,0); }
+}
+
+/* ------------------------------------------------------------
+   БЛОК 2: КАРТОЧКИ МОИХ УСЛУГ (Bento-сетка)
+   На телефоне — одна колонка, на компьютере — две.
+   Класс .wide делает карточку во всю ширину.
+   ------------------------------------------------------------ */
+.grid{ display:grid; grid-template-columns:1fr; gap:14px; }
+@media (min-width: 620px){
+  .grid{ grid-template-columns:1fr 1fr; }
+  .grid .wide{ grid-column: span 2; } /* карточка-«шишка» на все колонки */
+}
+
+/* Вся карточка — это ссылка <a>, клик в любом месте работает */
+.card{
+  display:flex; gap:16px; align-items:flex-start;
+  padding:20px; border-radius:22px; text-decoration:none; color:inherit;
+  background:var(--glass); border:1px solid var(--border);
+  backdrop-filter: blur(16px) saturate(1.3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  box-shadow: var(--shadow);
+  position:relative; overflow:hidden;
+  transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease, background .3s ease;
+}
+/* Растягиваем карточки в ряду ровно и прижимаем кнопку к низу */
+@media (min-width: 620px){ .card{ align-items:stretch; } .card > div:last-child{ display:flex; flex-direction:column; } }
+.card:hover{
+  transform: translateY(-5px);
+  border-color: rgba(150,120,255,.55);
+  background: var(--glass-2);
+  box-shadow: 0 22px 55px rgba(80,60,200,.28);
+}
+.card:focus-visible{ outline:2px solid var(--a1); outline-offset:3px; }
+/* Информационные карточки (div, без кнопки) — не выглядят кликабельными */
+div.card{ cursor:default; }
+
+/* Иконка-эмодзи в скруглённой «плашке» */
+.card-ico{
+  flex:0 0 auto; width:56px; height:56px; border-radius:18px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:30px; background:var(--glass-2); border:1px solid var(--border);
+  transition: transform .3s ease;
+}
+.card:hover .card-ico{ transform:scale(1.1) rotate(-6deg); }
+
+.card h3{ font-size:1.06rem; font-weight:750; letter-spacing:-.01em; line-height:1.3; }
+.card p{ font-size:.9rem; color:var(--muted); margin-top:5px; }
+
+/* Бейджи выгоды: .badge (оранжевый-бонус), .badge.free (зелёный), .badge.sale (фиолетовый) */
+.badge{
+  display:inline-block; margin-top:10px; padding:4px 11px; border-radius:999px;
+  font-size:.76rem; font-weight:800; letter-spacing:.02em;
+  color:var(--ink); background:linear-gradient(120deg,#ffb98a,#ff9ab8);
+  box-shadow:0 4px 14px rgba(255,90,80,.35);
+}
+.badge.free{ background:linear-gradient(120deg,#74e9ae,#7fe9d0); box-shadow:0 4px 14px rgba(30,200,140,.3); }
+.badge.sale{ background:linear-gradient(120deg,#9db9ff,#c9a3ff); box-shadow:0 4px 14px rgba(120,90,255,.35); }
+
+/* Обёртка кнопки: на десктопе прижимает кнопку к низу карточки */
+.card-cta{ margin-top:auto; }
+/* Кнопка внутри карточки: светлая, с тёмно-синим текстом; стрелка «уезжает» при наведении */
+.card-btn{
+  display:inline-flex; align-items:center; gap:8px;
+  margin-top:14px; padding:10px 20px; border-radius:999px;
+  font-size:.9rem; font-weight:800; color:var(--ink);
+  background:var(--grad-btn); background-size:150% 150%;
+  box-shadow:0 8px 22px rgba(110,80,255,.4);
+  transition: background-position .45s ease, transform .2s ease, box-shadow .3s ease;
+}
+.card:hover .card-btn{ background-position:100% 0; transform:translateX(3px); }
+.card-btn::after{ content:"→"; transition: transform .25s ease; }
+.card:hover .card-btn::after{ transform: translateX(4px); }
+
+/* ------------------------------------------------------------
+   БЛОК 3: ПРОМОКОДЫ — оформлены как отрывные Kupоны.
+   Пунктирная линия = «линия отрыва», по краям круглые вырезы.
+   ------------------------------------------------------------ */
+.promos{ display:grid; grid-template-columns:1fr; gap:14px; }
+
+.promo{
+  position:relative; overflow:hidden;
+  padding:18px 20px 16px; border-radius:22px;
+  background:var(--glass); border:1px solid var(--border);
+  backdrop-filter: blur(16px) saturate(1.3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  box-shadow: var(--shadow);
+  transition: transform .3s ease, border-color .3s ease;
+}
+.promo:hover{ transform:translateY(-3px); border-color:rgba(255,140,80,.5); }
+
+.promo-head{ display:flex; align-items:center; gap:12px; }
+.promo-head .emoji{ font-size:26px; }
+.promo-head h3{ font-size:1rem; font-weight:750; }
+.promo-head p{ font-size:.85rem; color:var(--muted); }
+
+/* Линия отрыва + вырезы по краям + ножницы */
+.promo-line{
+  position:relative; margin:15px -20px 15px;
+  border-top:2px dashed var(--border);
+}
+.promo-line::before{ content:"✂"; position:absolute; top:-11px; left:16px; font-size:14px; color:var(--muted); }
+.promo-line .notch{
+  position:absolute; top:-11px; width:20px; height:20px; border-radius:50%;
+  background:var(--notch);
+}
+.promo-line .notch.l{ left:-11px; }
+.promo-line .notch.r{ right:-11px; }
+
+/* «Отрывная часть»: сам код и кнопка копирования */
+.promo-stub{ display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+
+/* Капсула с промокодом (шрифт «как на чеке») */
+.code{
+  font-family: ui-monospace, "Cascadia Mono", Consolas, "Liberation Mono", monospace;
+  font-size:1.2rem; font-weight:700; letter-spacing:.14em;
+  padding:10px 16px; border-radius:12px;
+  background:var(--glass); border:1.5px dashed var(--border);
+  user-select:all; /* двойной клик выделяет весь код сразу */
+  white-space:nowrap;
+}
+.code small{ display:block; font-size:.6rem; letter-spacing:.1em; color:var(--muted); font-weight:600; }
+
+/* Кнопка «Скопировать промокод»: светлая, тёмно-синий текст (текст меняет JS) */
+.copy-btn{
+  border:none; cursor:pointer; font:inherit; font-weight:800; font-size:.9rem;
+  padding:12px 20px; border-radius:999px; color:var(--ink); white-space:nowrap;
+  background:linear-gradient(120deg,#ffc46b,#ff9eb8); background-size:160% 160%;
+  box-shadow:0 8px 20px rgba(255,90,80,.35);
+  transition: transform .2s ease, filter .2s ease, background .3s ease;
+}
+.copy-btn:hover{ transform:translateY(-2px); filter:brightness(1.08); }
+.copy-btn:active{ transform:scale(.96); }
+.copy-btn:focus-visible{ outline:2px solid var(--a3); outline-offset:3px; }
+/* Когда код скопирован — кнопка становится светло-зелёной */
+.copy-btn.copied{ background:linear-gradient(120deg,#6fe3a8,#7cecc9); box-shadow:0 8px 20px rgba(30,200,140,.35); }
+
+/* ------------------------------------------------------------
+   БЛОК 4: FAQ — раскрывающиеся шторки (теги <details>)
+   ------------------------------------------------------------ */
+.faq{ display:grid; gap:12px; }
+.faq-item{
+  border-radius:18px; overflow:hidden;
+  background:var(--glass); border:1px solid var(--border);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  transition: border-color .3s ease, background .3s ease;
+}
+.faq-item[open]{ border-color:rgba(150,120,255,.5); background:var(--glass-2); }
+.faq-item summary{
+  list-style:none; cursor:pointer; user-select:none;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:16px 18px; font-weight:700; font-size:.98rem;
+}
+.faq-item summary::-webkit-details-marker{ display:none; } /* убрать галочку в Safari */
+.faq-item summary:focus-visible{ outline:2px solid var(--a1); outline-offset:-2px; }
+/* Плашка-«плюс», превращается в «×» при открытии */
+.faq-item .plus{
+  flex:0 0 auto; width:28px; height:28px; border-radius:9px;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--grad-btn); color:var(--ink); font-size:16px; font-weight:700;
+  transition: transform .35s ease;
+}
+.faq-item[open] .plus{ transform:rotate(135deg); }
+.faq-item .faq-body{ padding:0 18px 16px; color:var(--muted); font-size:.92rem; }
+.faq-item .faq-body a{ color:var(--a1); }
+
+/* ------------------------------------------------------------
+   БЛОК 5: ФУТЕР — кнопки связи + копирайт
+   4 карточки 2×2 с векторными SVG-иконками в цветных плашках.
+   ------------------------------------------------------------ */
+.contacts{ display:grid; grid-template-columns:1fr; gap:12px; }
+@media (min-width: 400px){ .contacts{ grid-template-columns:1fr 1fr; } } /* сетка 2×2 */
+
+.contact{
+  display:flex; flex-direction:column; align-items:center; text-align:center; gap:4px;
+  text-decoration:none; color:inherit;
+  padding:18px 14px; border-radius:18px;
+  background:var(--glass); border:1px solid var(--border);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  font-weight:700; font-size:.95rem;
+  transition: transform .25s ease, border-color .25s ease, background .25s ease;
+}
+.contact:hover{ transform:translateY(-3px); background:var(--glass-2); }
+.contact:focus-visible{ outline:2px solid var(--a1); outline-offset:3px; }
+
+/* Цветная плашка с белой векторной иконкой (единый стиль для всех) */
+.contact .c-ico{
+  width:52px; height:52px; border-radius:16px; margin-bottom:8px;
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; box-shadow:0 8px 18px rgba(0,0,0,.28);
+  transition: transform .25s ease;
+}
+.contact .c-ico svg{ width:27px; height:27px; display:block; }
+.contact:hover .c-ico{ transform:rotate(-8deg) scale(1.07); }
+.contact small{ display:block; font-weight:500; color:var(--muted); font-size:.78rem; }
+/* Фирменные цвета плашек и рамок при наведении */
+.contact.kwork .c-ico{ background:linear-gradient(135deg,#7a5cff,#4d7cff); }
+.contact.vk   .c-ico{ background:linear-gradient(135deg,#0077ff,#5c9dff); }
+.contact.tg   .c-ico{ background:linear-gradient(135deg,#229ed9,#2aabee); }
+.contact.mail .c-ico{ background:linear-gradient(135deg,#ff7a3c,#ff4d8d); }
+.contact.kwork:hover{ border-color:#7a5cff88; }
+.contact.vk:hover  { border-color:#0077ff88; }
+.contact.tg:hover  { border-color:#2aabee88; }
+.contact.mail:hover{ border-color:#ff7a3c88; }
+
+.copy{ text-align:center; color:var(--muted); font-size:.8rem; margin-top:26px; }
+</style>
+</head>
+<body>
+
+<!-- Декоративный размытый фон (орбы) — трогать не нужно -->
+<div class="bg" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<!-- Переключатель темы (правый верхний угол) -->
+<button id="themeBtn" class="theme-btn" aria-label="Переключить тему">🌙</button>
+
+<main class="page">
+
+<!-- ═════════════════════ НАЧАЛО БЛОКА 1: ШАПКА ПРОФИЛЯ ═════════════════════ -->
+<header class="profile reveal">
+
+  <!-- АВАТАР. По умолчанию тут смайлик-заглушка 💻.
+       ЧТОБЫ ПОСТАВИТЬ ФОТО: удали строку с 💻 и вставь эту (положи файл avatar.jpg
+       рядом с index.html):   <img src="avatar.jpg" alt="Моё фото">   -->
+  <div class="avatar">
+    <div class="avatar-inner">💻</div>
+  </div>
+
+  <!-- ЗАГОЛОВОК: напиши своё имя или название проекта.
+       Слово в <span class="accent">...</span> будет цветным (градиент). -->
+  <h1>Создаю продающие сайты и <span class="accent">Telegram-ботов</span> под ключ</h1>
+
+  <!-- ОПИСАНИЕ: 2–3 строки о том, что тут и чем ты полезен -->
+  <p class="tagline">
+    Разработка современных лендингов, сайтов-визиток и веб-сервисов с адаптацией
+    под телефон. Быстрый запуск от 1–3 дней без переплат агентствам.
+  </p>
+
+  <!-- БЕЙДЖ-СТАТУС: текст внутри можно поменять на любой -->
+  <div class="status"><span class="dot"></span>Принимаю заказы на разработку</div>
+
+</header>
+<!-- ═════════════════════ КОНЕЦ БЛОКА 1 ═════════════════════ -->
+
+<!-- ═════════════════════ НАЧАЛО БЛОКА 2: МОИ УСЛУГИ (КАРТОЧКИ) ═════════════════════
+     Карточки 2–5 — информационные: без кнопок, просто описание услуги.
+     Редактировать текст можно свободно, это обычный <div class="card">.
+     Карточка 1 — единственная кликабельная (вся она ведёт на Kwork).
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<section class="section reveal">
+  <h2 class="sec-title">Услуги разработки</h2>
+  <div class="grid">
+
+    <!-- НАЧАЛО КАРТОЧКИ 1 (главная, широкая — единственная кликабельная) -->
+    <a class="card wide" href="https://kwork.ru/website-development/55600568/razrabotka-sovremennogo-lendinga-i-sayta-pod-klyuch-za-1-3-dnya?ref=12751359" target="_blank" rel="noopener">
+      <div class="card-ico">💼</div>
+      <div>
+        <h3>Заказать разработку сайта на Kwork</h3>
+        <p>Безопасная сделка, 3 тарифа на выбор и чёткие сроки.</p>
+        <span class="badge sale">⚡ Запуск от 1–3 дней</span><div class="card-cta"><span class="card-btn">Оформить заказ на Kwork</span></div>
+      </div>
+    </a>
+    <!-- КОНЕЦ КАРТОЧКИ 1 -->
+
+    <!-- НАЧАЛО КАРТОЧКИ 2 (информационная) -->
+    <div class="card">
+      <div class="card-ico">🎨</div>
+      <div>
+        <h3>Лендинги и сайты-визитки</h3>
+        <p>Современный дизайн, высокая скорость загрузки и подключение заявок.</p>
+        <span class="badge free">Под ключ</span>
+      </div>
+    </div>
+    <!-- КОНЕЦ КАРТОЧКИ 2 -->
+
+    <!-- НАЧАЛО КАРТОЧКИ 3 (информационная) -->
+    <div class="card">
+      <div class="card-ico">🔗</div>
+      <div>
+        <h3>Сайты-мультиссылки для ВК и Telegram</h3>
+        <p>Стильная упаковка вашего профиля или бизнеса.</p>
+        <span class="badge sale">Все ссылки — в одном месте</span>
+      </div>
+    </div>
+    <!-- КОНЕЦ КАРТОЧКИ 3 -->
+
+    <!-- НАЧАЛО КАРТОЧКИ 4 (информационная) -->
+    <div class="card">
+      <div class="card-ico">🤖</div>
+      <div>
+        <h3>Telegram-боты под ключ</h3>
+        <p>Боты для заявок, рассылок и автоматизации продаж.</p>
+        <span class="badge">⚡ Запуск за 1 день</span>
+      </div>
+    </div>
+    <!-- КОНЕЦ КАРТОЧКИ 4 -->
+
+    <!-- НАЧАЛО КАРТОЧКИ 5 (информационная) -->
+    <div class="card">
+      <div class="card-ico">🧮</div>
+      <div>
+        <h3>Веб-сервисы и калькуляторы</h3>
+        <p>Интерактивные решения и прототипы под ваши задачи.</p>
+        <span class="badge free">Прототип быстро</span>
+      </div>
+    </div>
+    <!-- КОНЕЦ КАРТОЧКИ 5 -->
+
+
+  </div>
+</section>
+<!-- ═════════════════════ КОНЕЦ БЛОКА 2 ═════════════════════ -->
+
+<!-- ═════════════════════ НАЧАЛО БЛОКА 3: АКЦИЯ (ПРОМОКОД) ═════════════════════
+     Как редактировать купон:
+     1) В строке class="code" data-code="..." промокод написан ДВАЖДЫ:
+         один раз внутри data-code="" — именно его копирует кнопка,
+         второй — крупно на самом купоне. Они должны совпадать!
+     2) Выше — название акции и описание.
+     ════════════════════════════════════════════════════════════════════ -->
+<section class="section reveal">
+  <h2 class="sec-title">Бонус при заказе через ВК</h2>
+  <div class="promos">
+
+    <!-- НАЧАЛО ПРОМОКОДА -->
+    <div class="promo">
+      <div class="promo-head">
+        <span class="emoji">🎁</span>
+        <div>
+          <h3>Бесплатный макет первого экрана вашего будущего сайта при заказе через ВК</h3>
+          <p>Напиши мне ВКонтакте и назови этот код — подготовлю макет первого экрана бесплатно.</p>
+        </div>
+      </div>
+      <div class="promo-line"><i class="notch l"></i><i class="notch r"></i></div>
+      <div class="promo-stub">
+        <span class="code" data-code="VKSTART">VKSTART</span>
+        <button class="copy-btn">Скопировать промокод</button>
+      </div>
+    </div>
+    <!-- КОНЕЦ ПРОМОКОДА -->
+
+  </div>
+</section>
+<!-- ═════════════════════ КОНЕЦ БЛОКА 3 ═════════════════════ -->
+
+<!-- ═════════════════════ НАЧАЛО БЛОКА 4: FAQ (ШТОРКИ) ═════════════════════
+     Каждая шторка = тег <details>. Текст вопроса — в <summary>,
+     текст ответа — в <div class="faq-body">. Можно добавлять свои шторки,
+     копируя блок <details>...<details> целиком.
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<section class="section reveal">
+  <h2 class="sec-title">Вопросы и ответы</h2>
+  <div class="faq">
+
+    <!-- НАЧАЛО ШТОРКИ 1 -->
+    <details class="faq-item">
+      <summary>Как проходит работа над заказом? <span class="plus">+</span></summary>
+      <div class="faq-body">
+        1. Обсуждаем задачу: какой сайт или бот нужен, примеры, пожелания.<br>
+        2. Согласуем структуру, дизайн и стоимость — при заказе через ВК макет
+        первого экрана делаю бесплатно (промокод ниже).<br>
+        3. Разрабатываю, показываю результат, вношу правки и запускаю проект. 🚀
+      </div>
+    </details>
+    <!-- КОНЕЦ ШТОРКИ 1 -->
+
+    <!-- НАЧАЛО ШТОРКИ 2 -->
+    <details class="faq-item">
+      <summary>Какие сроки и как заказать? <span class="plus">+</span></summary>
+      <div class="faq-body">
+        Лендинг, сайт-визитка или мультиссылка — запуск от 1–3 дней; бот или
+        веб-сервис — точнее скажу после обсуждения задачи. Заказать можно через
+        мой Kwork (безопасная сделка, 3 тарифа) или напрямую — напишите в
+        ВКонтакте или Telegram, кнопки ниже.
+      </div>
+    </details>
+    <!-- КОНЕЦ ШТОРКИ 2 -->
+
+    <!-- НАЧАЛО ШТОРКИ 3 -->
+    <details class="faq-item">
+      <summary>Почему без агентства, но с гарантией? <span class="plus">+</span></summary>
+      <div class="faq-body">
+        Работаю лично, поэтому в цене нет наценок посредников, а общение идёт
+        напрямую с тем, кто делает проект. Через Kwork действует безопасная
+        сделка: оплата резервируется и переводится мне только после сдачи работы.
+      </div>
+    </details>
+    <!-- КОНЕЦ ШТОРКИ 3 -->
+
+  </div>
+</section>
+<!-- ═════════════════════ КОНЕЦ БЛОКА 4 ═════════════════════ -->
+
+<!-- ═════════════════════ НАЧАЛО БЛОК 5: ФУТЕР (КОНТАКТЫ) ═════════════════════
+     Единственное место, где собраны все ссылки для связи (сетка 2×2).
+     ⚠ В карточке Telegram замени href="#" на https://t.me/ТВОЙ_НИК (без @).
+     ═════════════════════════════════════════════════════════════════════════ -->
+<section class="section reveal">
+  <h2 class="sec-title">Связаться со мной</h2>
+  <div class="contacts">
+
+    <!-- НАЧАЛО КАРТОЧКИ: KWORK -->
+    <a class="contact kwork" href="https://kwork.ru/website-development/55600568/razrabotka-sovremennogo-lendinga-i-sayta-pod-klyuch-za-1-3-dnya?ref=12751359" target="_blank" rel="noopener">
+      <span class="c-ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zM10 4h4v2h-4V4z"/></svg></span>
+      <span>Kwork<small>безопасная сделка</small></span>
+    </a>
+    <!-- КОНЕЦ КАРТОЧКИ: KWORK -->
+
+    <!-- НАЧАЛО КАРТОЧКИ: ВКОНТАКТЕ -->
+    <a class="contact vk" href="https://vk.ru/spvvolc7" target="_blank" rel="noopener">
+      <span class="c-ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m9.489.004.729-.003h3.564l.73.003.914.01.433.007.418.011.403.014.388.016.374.021.36.025.345.03.333.033c1.74.196 2.933.616 3.833 1.516.9.9 1.32 2.092 1.516 3.833l.034.333.029.346.025.36.02.373.025.588.012.41.013.644.009.915.004.98-.001 3.313-.003.73-.01.914-.007.433-.011.418-.014.403-.016.388-.021.374-.025.36-.03.345-.033.333c-.196 1.74-.616 2.933-1.516 3.833-.9.9-2.092 1.32-3.833 1.516l-.333.034-.346.029-.36.025-.373.02-.588.025-.41.012-.644.013-.915.009-.98.004-3.313-.001-.73-.003-.914-.01-.433-.007-.418-.011-.403-.014-.388-.016-.374-.021-.36-.025-.345-.03-.333-.033c-1.74-.196-2.933-.616-3.833-1.516-.9-.9-1.32-2.092-1.516-3.833l-.034-.333-.029-.346-.025-.36-.02-.373-.025-.588-.012-.41-.013-.644-.009-.915-.004-.98.001-3.313.003-.73.01-.914.007-.433.011-.418.014-.403.016-.388.021-.374.025-.36.03-.345.033-.333c.196-1.74.616-2.933 1.516-3.833.9-.9 2.092-1.32 3.833-1.516l.333-.034.346-.029.36-.025.373-.02.588-.025.41-.012.644-.013.915-.009ZM6.79 7.3H4.05c.13 6.24 3.25 9.99 8.72 9.99h.31v-3.57c2.01.2 3.53 1.67 4.14 3.57h2.84c-.78-2.84-2.83-4.41-4.11-5.01 1.28-.74 3.08-2.54 3.51-4.98h-2.58c-.56 1.98-2.22 3.78-3.8 3.95V7.3H10.5v6.92c-1.6-.4-3.62-2.34-3.71-6.92Z"/></svg></span>
+      <span>ВКонтакте<small>написать в личку</small></span>
+    </a>
+    <!-- КОНЕЦ КАРТОЧКИ: ВКОНТАКТЕ -->
+
+    <!-- НАЧАЛО КАРТОЧКИ: TELEGRAM
+         ⚠ Впиши свой ник: href="https://t.me/ТВОЙ_НИК" (без знака @) -->
+    <a class="contact tg" href="#" target="_blank" rel="noopener">
+      <span class="c-ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></span>
+      <span>Telegram<small>быстрый ответ</small></span>
+    </a>
+    <!-- КОНЕЦ КАРТОЧКИ: TELEGRAM -->
+
+    <!-- НАЧАЛО КАРТОЧКИ: ПОЧТА -->
+    <a class="contact mail" href="mailto:pstepanisev5@gmail.com?subject=Заказ%20на%20разработку">
+      <span class="c-ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></span>
+      <span>Почта<small>отправить ТЗ на email</small></span>
+    </a>
+    <!-- КОНЕЦ КАРТОЧКИ: ПОЧТА -->
+
+  </div>
+</section>
+
+<!-- КОПИРАЙТ: поменяй имя и год на свои -->
+<p class="copy">© 2026 · Сайты и Telegram-боты под ключ · Разработка на заказ</p>
+<!-- ═════════════════════ КОНЕЦ БЛОКА 5 ═════════════════════ -->
+
+</main>
+
+<script>
+/* ------------------------------------------------------------
+   1) ПЕРЕКЛЮЧАТЕЛЬ ТЕМЫ (Светлая / Тёмная)
+   Выбор запоминается в браузере (localStorage).
+   При первом заходе учитывается настройка системы.
+   ------------------------------------------------------------ */
+(function(){
+  var btn = document.getElementById('themeBtn');
+  function setTheme(t){
+    if(t === 'light'){ document.documentElement.setAttribute('data-theme','light'); btn.textContent = '☀️'; }
+    else { document.documentElement.removeAttribute('data-theme'); btn.textContent = '🌙'; }
+  }
+  var saved = null;
+  try{ saved = localStorage.getItem('site-theme'); }catch(e){}
+  var prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+  setTheme(saved || (prefersLight ? 'light' : 'dark'));
+  btn.addEventListener('click', function(){
+    var next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    setTheme(next);
+    try{ localStorage.setItem('site-theme', next); }catch(e){}
+  });
+})();
+
+/* ------------------------------------------------------------
+   2) КОПИРОВАНИЕ ПРОМОКОДОВ
+   Кнопка берёт код из data-code соседнего блока .code,
+   кладёт его в буфер обмена и на 2 секунды показывает
+   «Скопировано! ✓». Работает и на телефоне, и на компьютере.
+   ------------------------------------------------------------ */
+document.querySelectorAll('.promo').forEach(function(coupon){
+  var codeEl = coupon.querySelector('.code');
+  var btn    = coupon.querySelector('.copy-btn');
+  if(!codeEl || !btn) return;
+  var originalText = btn.textContent;
+  var timer = null;
+
+  btn.addEventListener('click', function(){
+    var code = codeEl.getAttribute('data-code') || codeEl.textContent.trim();
+    copyToClipboard(code);
+    // Меняем надпись и красим кнопку в зелёный
+    btn.textContent = 'Скопировано! ✓';
+    btn.classList.add('copied');
+    if(navigator.vibrate) navigator.vibrate(35); // лёгкая вибрация на телефоне
+    // Через 2 секунды возвращаем всё назад
+    clearTimeout(timer);
+    timer = setTimeout(function(){
+      btn.textContent = originalText;
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+});
+
+// Функция копирования с запасным вариантом для старых браузеров
+function copyToClipboard(text){
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(text).catch(function(){ legacyCopy(text); });
+  } else {
+    legacyCopy(text);
+  }
+  function legacyCopy(t){
+    var ta = document.createElement('textarea');
+    ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    try{ document.execCommand('copy'); }catch(e){}
+    document.body.removeChild(ta);
+  }
+}
+
+/* ------------------------------------------------------------
+   3) ПЛАВНОЕ ПОЯВЛЕНИЕ БЛОКОВ при прокрутке вниз
+   ------------------------------------------------------------ */
+document.documentElement.classList.add('js'); // включает CSS-анимации появления
+if('IntersectionObserver' in window){
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add('on'); io.unobserve(en.target); }
+    });
+  }, { threshold: .12 });
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+} else {
+  document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('on'); });
+}
+</script>
+</body>
+</html>
